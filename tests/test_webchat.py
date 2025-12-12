@@ -123,6 +123,30 @@ class TestWebChatBasics:
 
         connections.close_all()
 
+    def test_send_message_to_specific_channel(self):
+        """Ensure channel_id routes messages to the specified WebChat channel."""
+        other_channel = Channel.objects.create(
+            name="SecondWebChat",
+            platform="WebChat",
+            config={},
+            active=True,
+        )
+
+        response = self.client.post('/unicom/webchat/send/', {
+            'text': 'Hello other channel',
+            'channel_id': other_channel.id,
+        })
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data['success'] is True
+
+        message = Message.objects.get(id=data['message']['id'])
+        assert message.channel_id == other_channel.id
+        assert message.chat.channel_id == other_channel.id
+
+        connections.close_all()
+
     def test_get_messages(self):
         """Test retrieving messages for a chat."""
         # Login

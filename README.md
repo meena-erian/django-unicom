@@ -1151,6 +1151,7 @@ When `DEBUG=True`, visit `/unicom/webchat/demo/` to see the interactive demo wit
 The `<unicom-chat-with-sidebar>` component accepts these attributes:
 
 - **`api-base`**: API endpoint base URL (default: `/unicom/webchat`)
+- **`channel-id`**: Target a specific WebChat channel (optional; defaults to the first active WebChat channel)
 - **`theme`**: `"light"` or `"dark"` (default: `"light"`)
 - **`max-messages`**: Max messages to load per chat (default: 50)
 - **`auto-refresh`**: Polling interval in seconds (default: 5, set to 0 to disable)
@@ -1166,6 +1167,7 @@ The `<unicom-chat-with-sidebar>` component accepts these attributes:
 <!-- WebSocket-only: Retry with exponential backoff, never fallback to polling -->
 <unicom-chat-with-sidebar 
     api-base="/unicom/webchat" 
+    channel-id="123" 
     enable-websocket-only="true">
 </unicom-chat-with-sidebar>
 
