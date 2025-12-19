@@ -495,7 +495,7 @@ reply = chat.send_message({
 
 ### Template System
 
-Create reusable message templates for consistent communication.
+Create reusable message templates for consistent communication, and optionally render Jinja-style template variables for richer personalization.
 
 #### Creating Templates Programmatically
 
@@ -550,6 +550,48 @@ message = channel.send_message({
     'html': populated
 })
 ```
+
+#### Template Variables & Rendering
+
+There are two layers of templating:
+- **Unicom rendering (standalone messages):** Jinja2 rendering with a safe Unicom context. It is used automatically for ad-hoc/admin email compose and scheduled drafts. Context exposed to templates: `message` (subject/html/text/to/cc/bcc/attachments/chat_id/reply_to_message_id/timestamp), `channel` (id/name/platform), and `sender` (id/username/email when available). You can add more by passing `render_variables` (merged into `variables.*`) or `render_context` when calling `channel.send_message`.
+- **Unicrm rendering (mass-mail):** Jinja2 rendering with CRM data. Context exposed: `contact` (and nested `company`, `subscriptions`), `communication`, and `variables` (all active CRM TemplateVariables), plus `variables.unsubscribe_link` (HTML link) when a Communication is provided. This path is unchanged and remains tied to CRM mailings.
+
+Using variables in templates (applies to both renderers):
+```html
+<h1>Hello {{ variables.first_name }}</h1>
+<p>You’re receiving this on {{ now()|datetime("%Y-%m-%d") }}</p>
+```
+
+Creating CRM TemplateVariables (only available in CRM Communications):
+```python
+from unicrm.models import TemplateVariable
+
+TemplateVariable.objects.create(
+    key="contact_first_name",
+    label="Contact first name",
+    description="Returns the contact's first name",
+    code="""
+def compute(contact):
+    return (contact.first_name or '').strip() or 'there'
+""",
+    is_active=True,
+)
+```
+The callable must be `compute(contact)` and can access `contact`, `contact.company`, and helpers like `build_unsubscribe_link` (for unsubscribe variables). Values become available as `{{ variables.contact_first_name }}` in CRM emails.
+
+Opting into rendering for custom sends (programmatic):
+```python
+channel.send_message({
+    'to': ['a@example.com'],
+    'subject': 'Hello',
+    'html': '<p>Hello {{ variables.name }}</p>',
+    'render_template': True,                 # enable rendering
+    'render_variables': {'name': 'Alice'},   # merged into variables.*
+    # Optionally pass a custom render_context if you want to add more fields
+})
+```
+If you omit `render_template`/context/variables, the HTML is sent as-is.
 
 ### Draft Messages & Scheduling
 
