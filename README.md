@@ -586,12 +586,12 @@ channel.send_message({
     'to': ['a@example.com'],
     'subject': 'Hello',
     'html': '<p>Hello {{ variables.name }}</p>',
-    'render_template': True,                 # enable rendering
+    'render_template': True,                 # enable rendering (admin email compose & scheduled drafts set this for you)
     'render_variables': {'name': 'Alice'},   # merged into variables.*
     # Optionally pass a custom render_context if you want to add more fields
 })
 ```
-If you omit `render_template`/context/variables, the HTML is sent as-is.
+If you omit `render_template`/context/variables, the HTML is sent as-is. The Django admin email composer and scheduled drafts already enable rendering by default; you only need to pass the flag when sending programmatically.
 
 ### Draft Messages & Scheduling
 
