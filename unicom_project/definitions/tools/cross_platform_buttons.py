@@ -48,7 +48,7 @@ def cross_platform_buttons(button_type: str = "basic") -> str:
                 "text": "🌐 **Mixed Button Test**\n\nCallback buttons + URL buttons:",
                 "buttons": [
                     [
-                        {"text": "🔗 Visit GitHub", "url": "https://github.com/meena-erian/unicom", "type": "url"},
+                        {"text": "🔗 Visit GitHub", "url": "https://github.com/meena-erian/django-unicom", "type": "url"},
                         {"text": "📚 Documentation", "url": "https://example.com/docs", "type": "url"}
                     ],
                     [

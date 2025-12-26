@@ -97,7 +97,7 @@ def show_main_menu(message, account):
             [create_callback_button("🛠️ Tools Menu", {"menu": "tools"}, message=message, account=account)],
             [create_callback_button("ℹ️ System Info", {"menu": "info"}, message=message, account=account)],
             [create_callback_button("🎲 Random Fact", {"action": "random_fact"}, message=message, account=account)],
-            [create_url_button("📖 Documentation", "https://github.com/meena-erian/unicom")]
+            [create_url_button("📖 Documentation", "https://github.com/meena-erian/django-unicom")]
         ])
     })
 

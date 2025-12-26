@@ -2016,7 +2016,7 @@ We ❤️ contributors!
 1. Clone the repo:
 
    ```bash
-   git clone https://github.com/meena-erian/unicom.git
+   git clone https://github.com/meena-erian/django-unicom.git
    cd unicom
    ```
 

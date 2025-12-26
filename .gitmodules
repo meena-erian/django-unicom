@@ -4,3 +4,6 @@
 [submodule "unicrm"]
 	path = unicrm
 	url = /home/menas/rf2/unicrm-submodule
+[submodule "unicom"]
+	path = unicom
+	url = https://github.com/meena-erian/unicom.git

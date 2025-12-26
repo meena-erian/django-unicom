@@ -9,7 +9,7 @@ setup(
     long_description_content_type='text/markdown',
     author='Meena (Menas) Erian',
     author_email='hi@menas.pro',
-    url='https://github.com/meena-erian/unicom',
+    url='https://github.com/meena-erian/django-unicom',
     packages=find_packages(include=['unicom', 'unicom.*']),
     include_package_data=True,
     install_requires=[
