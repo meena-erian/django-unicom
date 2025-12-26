@@ -10,7 +10,7 @@ setup(
     author='Meena (Menas) Erian',
     author_email='hi@menas.pro',
     url='https://github.com/meena-erian/unicom',
-    packages=find_packages(exclude=['tests*']),
+    packages=find_packages(include=['unicom', 'unicom.*']),
     include_package_data=True,
     install_requires=[
         'Django>=3.2,<5.0',
