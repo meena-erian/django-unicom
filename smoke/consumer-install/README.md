@@ -42,7 +42,7 @@ pip install /wheels/*.whl
 What it checks:
 
 - Django can start with `unicom` installed as a package
-- Migrations run in a fresh SQLite database
+- Migrations run in a fresh PostgreSQL database
 - `unicom` URLs are mounted and the WebChat demo page renders
 - A minimal active WebChat channel can receive a message
 - Chats and messages can be fetched back over HTTP
@@ -50,5 +50,6 @@ What it checks:
 Notes:
 
 - The PyPI package name is `django-unicom`.
+- This smoke stack uses PostgreSQL because `unicom` migrations rely on PostgreSQL-specific fields such as `ArrayField`.
 - There is no special official PyPI `lts` channel here. If you want an LTS-style test target, pin the version you consider your supported baseline with `UNICOM_INSTALL_VERSION`.
 - `local-wheel` expects a wheel to exist in [`dist`](/home/menas/rf2/unicom/dist).

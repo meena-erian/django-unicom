@@ -1,9 +1,12 @@
 import json
 import os
+import http.cookiejar
 import urllib.request
 
 
 BASE_URL = os.environ.get("SMOKE_BASE_URL", "http://localhost:8000").rstrip("/")
+COOKIE_JAR = http.cookiejar.CookieJar()
+OPENER = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(COOKIE_JAR))
 
 
 def request(path, method="GET", payload=None):
@@ -13,7 +16,7 @@ def request(path, method="GET", payload=None):
         data = json.dumps(payload).encode("utf-8")
         headers["Content-Type"] = "application/json"
     req = urllib.request.Request(f"{BASE_URL}{path}", data=data, headers=headers, method=method)
-    with urllib.request.urlopen(req) as response:
+    with OPENER.open(req) as response:
         body = response.read().decode("utf-8")
         return response.status, body, dict(response.headers)
 
