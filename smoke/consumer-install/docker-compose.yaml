@@ -1,0 +1,59 @@
+services:
+  debug:
+    privileged: true
+    build:
+      context: ../..
+      dockerfile: smoke/consumer-install/Dockerfile
+      target: base
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - ../../dist:/wheels:ro
+    environment:
+      DJANGO_SETTINGS_MODULE: smokeproject.settings
+      DJANGO_PUBLIC_ORIGIN: http://localhost:18080
+      PYTHONUNBUFFERED: "1"
+    command: ["sleep", "infinity"]
+
+  app:
+    privileged: true
+    build:
+      context: ../..
+      dockerfile: smoke/consumer-install/Dockerfile
+      target: runtime
+      args:
+        UNICOM_INSTALL_SOURCE: ${UNICOM_INSTALL_SOURCE:-local-wheel}
+        UNICOM_INSTALL_VERSION: ${UNICOM_INSTALL_VERSION:-}
+    environment:
+      DJANGO_SETTINGS_MODULE: smokeproject.settings
+      DJANGO_PUBLIC_ORIGIN: http://localhost:18080
+      PYTHONUNBUFFERED: "1"
+    command: >
+      sh -c "
+      python manage.py migrate &&
+      python seed_webchat_channel.py &&
+      python manage.py runserver 0.0.0.0:8000
+      "
+    ports:
+      - "18080:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/unicom/webchat/demo/').read()"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  smoke:
+    privileged: true
+    build:
+      context: ../..
+      dockerfile: smoke/consumer-install/Dockerfile
+      target: runtime
+      args:
+        UNICOM_INSTALL_SOURCE: ${UNICOM_INSTALL_SOURCE:-local-wheel}
+        UNICOM_INSTALL_VERSION: ${UNICOM_INSTALL_VERSION:-}
+    environment:
+      SMOKE_BASE_URL: http://app:8000
+    depends_on:
+      app:
+        condition: service_healthy
+    command: ["python", "smoke_test.py"]
