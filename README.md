@@ -59,6 +59,12 @@
    python -m playwright install --with-deps
    ```
 
+   If you use the email icon-rendering or PDF-export features, you also need
+   native Cairo libraries available on the host image. On Debian/Ubuntu-based
+   systems this typically means installing `libcairo2`. Those libraries are not
+   required for basic messaging setup and are loaded lazily when the relevant
+   feature paths are used.
+
 2. **Add required apps to your Django settings:**
 
    ```python
