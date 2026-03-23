@@ -29,6 +29,7 @@ setup(
         'pytz>=2024.1',
         'openai',
         'pydub>=0.25.1',
+        'audioop-lts; python_version >= "3.13"',
         'WeasyPrint==52.5',
         'playwright>=1.45.0,<2.0',
     ],
