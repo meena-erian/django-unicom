@@ -27,6 +27,7 @@ setup(
         'django-ace>=1.39.2',
         'fa2svg==0.1.10',
         'pytz>=2024.1',
+        'Jinja2>=3.1.0',
         'openai',
         'pydub>=0.25.1',
         'audioop-lts; python_version >= "3.13"',
