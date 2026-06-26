@@ -3,7 +3,7 @@
 	url = git@github.com:meena-erian/unibot.git
 [submodule "unicrm"]
 	path = unicrm
-	url = /home/menas/rf2/unicrm-submodule
+	url = git@github.com:meena-erian/unicrm.git
 [submodule "unicom"]
 	path = unicom
 	url = git@github.com:meena-erian/unicom.git
